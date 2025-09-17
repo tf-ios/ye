@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible=IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>犬夜叉</title>
+		<link rel="stylesheet" href="access/css/sweetalert2.min.css">
+		<style>
+			:root {
+				--bg-color: #f5f1e6; /* 古风米白色背景 */
+				--text-color: #4d2c16; /* 深棕色文字 */
+				--primary-color: #c72c1c; /* 犬夜叉红衣红色 */
+				--secondary-color: #d4af37; /* 金色点缀 */
+				--glass-bg: rgba(255, 251, 240, 0.7); /* 半透明白色 */
+				--shadow-light: 5px 5px 10px #d9cbb7, -5px -5px 10px #ffffff; /* 柔和阴影 */
+				--shadow-inset: inset 2px 2px 5px #d9cbb7, inset -2px -2px 5px #ffffff;
+			}
+
+			body {
+				background-color: var(--bg-color);
+				color: var(--text-color);
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				margin: 0;
+				padding: 0;
+				background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23d4af37" fill-opacity="0.05" fill-rule="evenodd"/></svg>');
+			}
+
+			#app {
+				max-width: 600px;
+				margin: 20px auto;
+				padding: 20px;
+				border-radius: 16px;
+				background: var(--glass-bg);
+				backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
+				box-shadow: var(--shadow-light);
+				border: 1px solid rgba(212, 175, 55, 0.1); /* 金色边框点缀 */
+			}
+
+			.img-view {
+				border-radius: 16px;
+				overflow: hidden;
+				width: 100%;
+				height: auto;
+				box-shadow: var(--shadow-light);
+				transition: transform 0.3s ease;
+				border: 1px solid rgba(212, 175, 55, 0.2);
+			}
+
+			.img-view:hover {
+				transform: scale(1.02);
+				box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+			}
+
+			.des {
+				border-radius: 16px;
+				padding: 15px 20px;
+				margin-top: 15px;
+				background: var(--glass-bg);
+				backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
+				box-shadow: var(--shadow-inset);
+				color: var(--text-color);
+				border-left: 3px solid var(--secondary-color);
+			}
+
+			.des ul {
+				color: var(--text-color);
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				line-height: 25px;
+			}
+
+			.install {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				margin: 20px 0;
+			}
+
+			.button {
+				padding: 15px;
+				margin: 12px 0;
+				border: none;
+				width: 100%;
+				border-radius: 50px;
+				font-weight: bold;
+				font-size: 1rem;
+				color: var(--text-color);
+				background: var(--bg-color);
+				box-shadow: var(--shadow-light);
+				transition: all 0.3s ease;
+				cursor: pointer;
+				outline: none;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.button:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: -100%;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+				transition: all 0.6s ease;
+			}
+
+			.button:hover {
+				box-shadow: var(--shadow-inset);
+				color: var(--primary-color);
+			}
+
+			.button:hover:after {
+				left: 100%;
+			}
+
+			.button:active {
+				box-shadow: var(--shadow-inset);
+			}
+
+			li, ul {
+				list-style-type: none;
+				font-weight: bold;
+				font-size: 14px;
+			}
+
+			.des li:before {
+				content: "🔸";
+				margin-right: 8px;
+				color: var(--secondary-color);
+			}
+
+			.swal2-popup {
+				border-radius: 16px !important;
+				padding: 20px !important;
+				background: var(--glass-bg) !important;
+				backdrop-filter: blur(10px) !important;
+				-webkit-backdrop-filter: blur(10px) !important;
+				box-shadow: var(--shadow-light) !important;
+				border: 1px solid rgba(212, 175, 55, 0.1) !important;
+			}
+
+			.swal2-title {
+				font-size: 18px !important;
+				margin: 5px 0 !important;
+				padding-top: 0 !important;
+				color: var(--primary-color) !important;
+			}
+
+			.swal2-html-container {
+				font-size: 14px !important;
+				margin: 5px 0 !important;
+				color: var(--text-color) !important;
+			}
+
+			.swal2-input {
+				font-size: 14px !important;
+				padding: 12px !important;
+				height: 40px !important;
+				border-radius: 10px !important;
+				background: var(--bg-color) !important;
+				box-shadow: var(--shadow-inset) !important;
+				border: 1px solid rgba(212, 175, 55, 0.1) !important;
+			}
+
+			.swal2-confirm, .swal2-cancel {
+				border-radius: 50px !important;
+				padding: 10px 20px !important;
+				background: var(--bg-color) !important;
+				box-shadow: var(--shadow-light) !important;
+				border: none !important;
+				color: var(--text-color) !important;
+			}
+
+			.swal2-confirm:hover, .swal2-cancel:hover {
+				box-shadow: var(--shadow-inset) !important;
+				color: var(--primary-color) !important;
+			}
+
+			.progress-bar {
+				width: 100%;
+				height: 8px;
+				background-color: #e8e0d0;
+				border-radius: 10px;
+				overflow: hidden;
+				margin-top: 15px;
+				position: relative;
+				box-shadow: var(--shadow-inset);
+			}
+
+			.progress-bar-inner {
+				height: 100%;
+				width: 0%;
+				background-color: var(--primary-color);
+				transition: width 0.2s linear;
+				border-radius: 10px;
+			}
+
+			@media (max-width: 768px) {
+				#app {
+					max-width: 90%;
+					padding: 15px;
+					margin: 15px auto;
+				}
+
+				.button {
+					width: 100%;
+					padding: 12px;
+				}
+
+				.img-view {
+					width: 100%;
+				}
+
+				.des {
+					padding: 15px;
+				}
+
+				.swal2-popup {
+					width: 90% !important;
+					max-width: 90% !important;
+				}
+			}
+		</style>
+		<script src="sweetalert2@11"></script>
+	</head>
+	<body>
+		<div id="app">
+			<img class="img-view" src="access/images/banner1.png" alt="犬夜叉图片">
+			<div class="des">
+				<ul>
+					<li>完美转发 超级防封 畅爽使用</li>
+					<li>一个激活码可在一个设备上 <span style="color: #c72c1c;">一开</span></li>
+					<li>一个激活码不可用在其他设备</li>
+					<li>一个激活码可以下载<span style="color: #c72c1c;">一次</span></li>
+					<li><span style="color: #c72c1c;">一码一开，需要更多请使用多个激活码！</span></li>
+					<li>安装界面过期时间与用户无关，请放心使用！</li>
+				</ul>
+			</div>
+
+			<div class="install">
+				<button class="button" onclick="installTf()">步骤一 →【安装 TestFlight】</button>
+				<button class="button" onclick="redirectToLink()">步骤二 →【TF安装 犬夜叉】</button>
+				<!-- <button class="button" onclick="redirectToLink()">备用安装地址</button> -->
+				<button class="button" onclick="showQueryCodeModal()">兑换码查询</button>
+			</div>
+
+			<img class="img-view" src="access/images/footer.png" alt="底部图片">
+		</div>
+
+		<script>
+			// 判断是否为 iOS 设备
+			function isIOSDevice() {
+				return !!navigator.userAgent.match(/(iPhone|iPod|iPad)/i);
+			}
+
+			// 检查网络连接
+			function isNetworkAvailable() {
+				return navigator.onLine;
+			}
+
+			// 跳转安装 TestFlight
+			function installTf() {
+				window.open("https://apps.apple.com/cn/app/testflight/id899247664", "_blank");
+			}
+
+			// 激活兑换码逻辑
+			async function showRedeemCodeModal() {
+				if (!isNetworkAvailable()) {
+					Swal.fire({
+						title: '网络连接错误',
+						text: '请检查您的网络连接并重试。',
+						confirmButtonText: '知道了',
+						confirmButtonColor: '#c72c1c',
+					});
+					return;
+				}
+
+				const {
+					value: code
+				} = await Swal.fire({
+					title: '输入兑换码',
+					input: 'text',
+					inputPlaceholder: '请输入激活码',
+					confirmButtonText: '激活',
+					showCancelButton: true,
+					cancelButtonText: '取消',
+					confirmButtonColor: '#1b853e',
+					cancelButtonColor: '#c72c1c',
+				});
+
+				if (code) {
+					redeemCodeAPI(code);
+				}
+			}
+
+			// 处理兑换码激活API请求
+			async function redeemCodeAPI(code) {
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 10000); // 设置超时为10秒
+
+				const modal = Swal.fire({
+					title: '激活中，请稍等...',
+					html: `
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner" id="redeemProgress"></div>
+                    </div>
+                    <p id="statusText" style="margin-top: 10px; font-size: 14px; color: #4d2c16;">正在获取链接中，请稍等... (0%)</p>
+                `,
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					didOpen: async () => {
+						const progressBar = document.getElementById('redeemProgress');
+						const statusText = document.getElementById('statusText');
+						let progress = 0;
+
+						// 使用 setTimeout 逐步更新进度条
+						function updateProgress() {
+							if (progress < 100) {
+								progress += 10;
+								progressBar.style.width = `${progress}%`;
+								statusText.textContent = `正在获取链接中，请稍等... (${progress}%)`;
+
+								// 继续更新直到进度达到100%
+								setTimeout(updateProgress, 300);
+							} else {
+								// 跳转逻辑
+								statusText.textContent = `正在验证激活码，请稍等... (100%)`;
+								proceedWithRedemption();
+							}
+						}
+
+
+						// 启动进度条更新
+						updateProgress();
+
+						async function proceedWithRedemption() {
+							try {
+								const response = await fetch(
+									`/redeem.php?action=redeem&code=${encodeURIComponent(code)}`, {
+										signal: controller.signal
+									});
+								clearTimeout(timeoutId); // 清除超时计时器
+
+								if (!response.ok) {
+									throw new Error(`服务器错误：${response.status}`);
+								}
+
+								const result = await response.json();
+								if (result.code === 1 && result.data?.url) {
+									// 成功处理
+									const redirectLink =
+										`itms-beta://testflight.apple.com/v1/invite/${result.data.url}`;
+									Swal.close(); // 关闭弹窗
+									setTimeout(() => {
+										if (isIOSDevice()) {
+											window.location.href = redirectLink; // iOS 跳转
+										} else {
+											// 非 iOS 设备使用 `<a>` 标签模拟点击，防止浏览器拦截
+											const a = document.createElement('a');
+											a.href = redirectLink.replace('itms-beta://',
+											'https://');
+											a.target = '_blank';
+											a.rel = 'noopener noreferrer';
+											document.body.appendChild(a);
+											a.click();
+											document.body.removeChild(a);
+										}
+									}, 300); // 300ms 后跳转
+								} else {
+									statusText.textContent = `激活失败，请稍后重试。`;
+									Swal.fire({
+										title: '提示',
+										text: result.msg || "未知错误", // 直接显示 API 返回的消息
+										confirmButtonText: '知道了',
+										confirmButtonColor: '#c72c1c',
+									});
+								}
+							} catch (error) {
+								clearTimeout(timeoutId);
+								// 超时或请求失败
+								statusText.textContent = `请求失败，请稍后重试。`;
+								if (error.name === 'AbortError') {
+									Swal.fire({
+										title: '请求超时',
+										text: '请求服务器的时间过长，请稍后重试。',
+										confirmButtonText: '重试',
+										confirmButtonColor: '#c72c1c',
+									});
+								} else {
+									statusText.textContent = `请求失败，请稍后重试。`;
+									Swal.fire({
+										title: '网络错误',
+										text: '发生了未知错误，请稍后重试。',
+										confirmButtonText: '知道了',
+										confirmButtonColor: '#c72c1c',
+									});
+								}
+							}
+						}
+					},
+				});
+			}
+
+			// 跳转备用安装地址
+			function redirectToLink() {
+				window.open("http://192.140.171.91:99/#/redeem/WSQWSQ", "_blank");
+			}
+
+			// 查询兑换码
+			async function showQueryCodeModal() {
+				if (!isNetworkAvailable()) {
+					Swal.fire({
+						title: '网络连接错误',
+						text: '请检查您的网络连接并重试。',
+						confirmButtonText: '知道了',
+						confirmButtonColor: '#c72c1c',
+					});
+					return;
+				}
+
+				const {
+					value: code
+				} = await Swal.fire({
+					title: '查询兑换码状态',
+					input: 'text',
+					inputPlaceholder: '请输入需要查询的激活码',
+					confirmButtonText: '查询',
+					showCancelButton: true,
+					cancelButtonText: '取消',
+					confirmButtonColor: '#1b853e',
+					cancelButtonColor: '#c72c1c',
+				});
+
+				if (code) {
+					queryCodeStatus(code);
+				}
+			}
+
+			// 查询兑换码状态
+			async function queryCodeStatus(code) {
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+				const modal = Swal.fire({
+					title: '查询中，请稍等...',
+					html: `
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner" id="queryProgress"></div>
+                    </div>
+                    <p id="queryStatusText" style="margin-top: 10px; font-size: 14px; color: #4d2c16;">正在查询兑换码状态，请稍等... (0%)</p>
+                `,
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					didOpen: async () => {
+						const progressBar = document.getElementById('queryProgress');
+						const statusText = document.getElementById('queryStatusText');
+						let progress = 0;
+
+						const interval = setInterval(() => {
+							progress += 20;
+							progressBar.style.width = `${progress}%`;
+							statusText.textContent = `正在查询兑换码状态，请稍等... (${progress}%)`;
+
+							if (progress >= 100) {
+								clearInterval(interval);
+							}
+						}, 500); // 每500ms更新一次进度
+
+						try {
+							const response = await fetch(`/redeem_query.php?code=${encodeURIComponent(code)}`, {
+								signal: controller.signal
+							});
+							clearTimeout(timeoutId);
+
+							const result = await response.json();
+							if (result.code === 1) {
+								const statusMessage = result.data.status === '已使用' ?
+									`兑换时间：${result.data.redeem_time}` :
+									'该兑换码未使用';
+								statusText.textContent = `查询完成... (100%)`;
+								Swal.fire({
+									title: '查询完成',
+									text: `兑换码状态：${statusMessage}`,
+									confirmButtonText: '知道了',
+									confirmButtonColor: '#28a412',
+								});
+							} else {
+								statusText.textContent = `查询失败，请稍后重试。`;
+								Swal.fire({
+									title: '查询失败',
+									text: result.msg || '激活码不存在',
+									confirmButtonText: '知道了',
+									confirmButtonColor: '#c72c1c',
+								});
+							}
+						} catch (error) {
+							clearTimeout(timeoutId);
+							statusText.textContent = `请求失败，请稍后重试。`;
+							Swal.fire({
+								title: '网络错误',
+								text: '无法连接到服务器，请稍后重试。',
+								confirmButtonText: '知道了',
+								confirmButtonColor: '#c72c1c',
+							});
+						}
+					},
+				});
+			}
+		</script>
+	</body>
+</html>
